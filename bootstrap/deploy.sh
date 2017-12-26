@@ -8,6 +8,7 @@ GCP_ZONE=${2:-europe-west1-b}
 GCP_MACHINE_TYPE=${3:-n1-standard-2}
 NUM_NODES=${4:-1}
 SERVICE_ACCOUNT_FILE=${5:-./service_account.json}
+CLUSTER_NAME=${6:-cd-cluster}
 
 validate_environment() {
   # Check pre-requisites for required command line tools
@@ -30,16 +31,15 @@ authorise_gcp() {
 }
 
 build_gcp_cluster() {
-  gcloud container clusters create "cd-cluster" \
+  gcloud container clusters create "$CLUSTER_NAME" \
   --zone "$GCP_ZONE" \
   --machine-type "$GCP_MACHINE_TYPE" \
   --num-nodes "$NUM_NODES" \
   --network "default" \
-  --username "admin" \
-  --cluster-version "1.5.7"
+  --username "admin"
 
-  gcloud config set container/cluster cd-cluster
-  gcloud container clusters get-credentials cd-cluster
+  gcloud config set container/cluster $CLUSTER_NAME
+  gcloud container clusters get-credentials $CLUSTER_NAME
 }
 
 build_jenkins_server() {
@@ -61,6 +61,7 @@ build_jenkins_server() {
   rm jenkins-pod.yaml.bak
 
   printf "\nJenkins service up and running on $JENKINS_ADDRESS\n"
+  read -rsp $'Make sure to copy the Jenkins address then press any key to continue.\n' -n1 key
 }
 
 create_service_account_secret() {

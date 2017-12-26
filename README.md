@@ -1,3 +1,15 @@
+## My Updates to Author's bash script
+
+The --version flag on the container creation was not working. Therefore, I removed the --version attribute. I also added a parameter to pass to allow for the custom name of the container to create (default is cd-cluster) and added a pause after the Jenkins instance is started to allow time to copy the IP address (no log file is being created). NOTE: An enhancement is to add the ability to create a log file to capture the output.
+
+The modified script worked well on Windows 10.
+
+The original article written by James Heggs is here: https://medium.com/google-cloud/zero-to-continuous-delivery-with-google-cloud-platform-8e3bf1312fb5
+
+The below is in reference to an update to the original article. I suggest following the instructions from the original article, or, you can follow the steps in the bash script.
+
+## (Original author: James Heggs)
+
 # gcp-bootstrap-infrastructure
 Starting point for the GCP and K8S Continuous Delivery Seed
 
